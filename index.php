@@ -1,3 +1,5 @@
+/*test git*/
+
 <?php
 function chargerClasse($classe) {
 
