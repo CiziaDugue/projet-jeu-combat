@@ -1,13 +1,16 @@
 <?php
 class PersonnagesManager
 {
-    private $_db;
+    private $_db; // Instance de PDO
      
     public function __construct($db)
     {
         $this->setDb($db);
     }
-     
+    
+	// Préparation de la requête d'insertion
+    // Assignation des valeurs pour le nom, la force, les dégâts, l'expérience et le niveau du personnage
+    // Exécution de la requête
     public function add(Personnage $perso)
     {
         $q = $this->_db->prepare('INSERT INTO personnages (nom, dateDerniereConnexion) VALUES (:nom, NOW())');
@@ -25,7 +28,8 @@ class PersonnagesManager
             'dateDernierCoup' => '0000-00-00',
             'dateDerniereConnexion' => $now->format('Y-m-d')]);
     }
-     
+    
+	// Exécute une requête de type DELETE
     public function count()
     {
         return $this->_db->query('SELECT COUNT(*) FROM personnages')->fetchColumn();
