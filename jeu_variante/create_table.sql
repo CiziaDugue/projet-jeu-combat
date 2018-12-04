@@ -1,3 +1,4 @@
+/***********INSTRUCTION SQL POUR CREER NOTRE TABLE PERSONNAGES EN BASE DE DONNEES*******************/
 CREATE TABLE IF NOT EXISTS `personnages` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
@@ -9,4 +10,4 @@ CREATE TABLE IF NOT EXISTS `personnages` (
   `dateDerniereConnexion` date NOT NULL DEFAULT '1900-01-01',
   PRIMARY KEY (`id`),
   UNIQUE KEY `nom` (`nom`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;

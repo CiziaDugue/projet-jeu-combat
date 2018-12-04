@@ -1,8 +1,8 @@
 <?php
 /*Git : modification sur branche Test*/
 
-/*Classe pour gérer nos objets personnages*/
-// Elle définit les caractéristiques et les fonctionnalités des objets instanciés
+/********Classe pour gérer nos objets personnages********/
+// Elle gère les personnages instanciés : elle les inscrit, modifie ou efface de la base de données
 
 class Personnage {}
 ?>

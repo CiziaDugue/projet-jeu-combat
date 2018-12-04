@@ -1,4 +1,6 @@
 <?php
+/**************CLASSE POUR INSTANCIER DES OBJETS PERSONNAGES**************/
+// Elle définit les caractéristiques et les fonctionnalités des objets instanciés
 class Personnage
 {
     private $_id;

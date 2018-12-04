@@ -1,12 +1,13 @@
 <?php
- 
+/********FICHIER PRINCIPAL -> EXECUTION DU PROGRAMME********/
+//Autoload des classes Personnage et PersonnageManager
 function chargerClasse($classname)
 {
     require $classname.'.php';
 }
  
 spl_autoload_register('chargerClasse');
- 
+
 session_start();
  
 if (isset($_GET['deconnexion'])){
@@ -19,6 +20,7 @@ if (isset($_SESSION['perso'])){
     $perso = $_SESSION['perso'];
 }
  
+//Instanciation d'un objet PDO
 $db = new PDO('mysql:host=localhost;dbname=projet_jeu_combat','root','password');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
  
@@ -124,11 +126,11 @@ if (isset($_POST['creer']) && isset($_POST['nom'])){
                 <p>
                     Nom : <?=  htmlspecialchars($perso->nom()) ?><br><br>
                     Dégâts : <?= $perso->degats() ?> | 
-                    Expérience : <?= $perso->experience() ?>
+                    Expérience : <?= $perso->experience() ?> | 
                     Niveau : <?= $perso->niveau() ?> | 
                     Nombre des coups : <?= $perso->nbCoups() ?> | 
                     Date de dernier coup : <?= $perso->dateDernierCoup()->format('d/m/Y') ?> | 
-                    Date de la dernière connexion : <?= $perso->dateDerniereConnexion()->format('d/m/Y') ?>
+                    Dernière connexion : <?= $perso->dateDerniereConnexion()->format('d/m/Y') ?>
                 </p>
             </fieldset>
             <fieldset>
@@ -141,7 +143,7 @@ if (isset($_POST['creer']) && isset($_POST['nom'])){
                         echo 'Personne à frapper!';
                     } else {
                         foreach($persos as $unPerso){
-                            echo '<a href="?frapper='.$unPerso->id().'">'.htmlspecialchars($unPerso->nom()).'</a> (dégâts : '.$unPerso->degats().' | expérience : '.$unPerso->experience().', niveau : '.$unPerso->niveau().' | nombre des coups : '.$unPerso->nbCoups().' | date de dernier coup : '.$unPerso->dateDernierCoup()->format('d/m/Y').' | dernière connexion : '.$unPerso->dateDerniereConnexion()->format('d/m/Y').')<br><br>';
+                            echo '<a href="?frapper='.$unPerso->id().'">'.htmlspecialchars($unPerso->nom()).'</a> (Dégâts : '.$unPerso->degats().' | Expérience : '.$unPerso->experience().' | Niveau : '.$unPerso->niveau().' | Nombre des coups : '.$unPerso->nbCoups().' | Date de dernier coup : '.$unPerso->dateDernierCoup()->format('d/m/Y').' | Dernière connexion : '.$unPerso->dateDerniereConnexion()->format('d/m/Y').')<br><br>';
                              
                         }
                     }

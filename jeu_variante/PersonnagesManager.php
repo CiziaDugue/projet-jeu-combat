@@ -1,4 +1,6 @@
 <?php
+/********CLASSE POUR GERER NOS OBJETS PERSONNAGE********/
+// Elle gère les personnages instanciés : elle les inscrit, modifie ou efface dans la base de données
 class PersonnagesManager
 {
     private $_db; // Instance de PDO
