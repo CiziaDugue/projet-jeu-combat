@@ -21,17 +21,17 @@ if (isset($_SESSION['perso'])){
 }
  
 //Instanciation d'un objet PDO
-$db = new PDO('mysql:host=localhost;dbname=projet_jeu_combat','root','password');
+$db = new PDO('mysql:host=localhost;dbname=projet_jeu_combat','projet_jeu_combat','rrsf34(42MknE74');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
  
 $manager = new PersonnagesManager($db);
  
 if (isset($_POST['creer']) && isset($_POST['nom'])){
     $perso = new Personnage(['nom' => $_POST['nom']]);
-     
+    
     if (!$perso->nomValide()){
         $message = 'Le nom choisi est invalide.';
-        unset($perso);
+    	unset($perso);
     } elseif ($manager->exists($perso->nom())){
         $message = 'Le nom du personnage est déjà pris.';
         unset($perso);
