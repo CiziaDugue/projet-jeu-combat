@@ -1,22 +1,35 @@
 <?php
 /********CLASSE POUR GERER NOS OBJETS PERSONNAGE********/
 // Elle gère les personnages instanciés : elle les inscrit, modifie ou efface dans la base de données
-class PersonnagesManager
-{
-    private $_db; // Instance de PDO
-     
-    public function __construct($db)
-    {
+class PersonnagesManager {
+	
+	/////////////////////////////////////
+	////Propriété unique de la classe////
+	/////////////////////////////////////
+	
+	//On admet que $db est un objet PDO = PHP Data Object
+    private $_db;
+    
+	/////////////////////////////////////////////////////
+	////Méthode pour ajouter des personnages à la BDD////
+	/////////////////////////////////////////////////////
+	
+    public function __construct($db){
+		
         $this->setDb($db);
     }
     
-	// Préparation de la requête d'insertion
-    // Assignation des valeurs pour le nom, la force, les dégâts, l'expérience et le niveau du personnage
-    // Exécution de la requête
-    public function add(Personnage $perso)
-    {
+	/////////////////////////////////////////////////////
+	////Méthode pour ajouter des personnages à la BDD////
+	/////////////////////////////////////////////////////
+   
+    public function add(Personnage $perso){
+		
+		// Préparation de la requête d'insertion
+		// Assignation des valeurs pour le nom, la force, les dégâts, l'expérience et le niveau du personnage
         $q = $this->_db->prepare('INSERT INTO personnages (nom, dateDerniereConnexion) VALUES (:nom, NOW())');
         $q->bindValue(':nom', $perso->nom());
+		 // Exécution de la requête
         $q->execute();
          
         $now = new DateTime('NOW');
@@ -31,21 +44,29 @@ class PersonnagesManager
             'dateDerniereConnexion' => $now->format('Y-m-d')]);
     }
     
-	// Exécute une requête de type DELETE
-    public function count()
-    {
+    public function count() {
+		
         return $this->_db->query('SELECT COUNT(*) FROM personnages')->fetchColumn();
     }
-     
-    public function delete(Personnage $perso)
-    {
+    
+	
+	////////////////////////////////////////////////////////
+	////Méthode pour supprimer des personnages de la BDD////
+	///////////////////////////////////////////////////////
+	
+    public function delete(Personnage $perso) {
+		
         $this->_db->exec('DELETE FROM personnages WHERE id = '.$perso->id());
     }
+	
+	///////////////////////////////////////////////////////////////
+	////Méthode pour vérifer la présence d'un personnages en BDD///
+	///////////////////////////////////////////////////////////////
      
-    public function exists($info)
-    {
-        if (is_int($info))
-        {
+    public function exists($info) {
+		
+        if (is_int($info)) {
+			
             return (bool)$this->_db->query('SELECT COUNT(*) FROM personnages WHERE id = '.$info)->fetchColumn();
         }
          
@@ -54,11 +75,16 @@ class PersonnagesManager
          
         return (bool) $q->fetchColumn();
     }
-     
-    public function get($info)
-    {
-        if (is_int($info))
-        {
+    
+	/////////////////////////////////////////////////////////////
+	////Méthode pour selectionner des personnages dans la BDD////
+	////////////////////////////////////////////////////////////
+	
+	//Pour le personnage connecté
+    public function get($info) {
+		
+        if (is_int($info)) {
+			
             $q = $this->_db->query('SELECT id, nom, degats, experience, niveau, nbCoups, dateDernierCoup, dateDerniereConnexion FROM personnages WHERE id = '.$info);
             $donnees = $q->fetch(PDO::FETCH_ASSOC);
              
@@ -71,23 +97,30 @@ class PersonnagesManager
          
         return new Personnage($donnees);
     }
-     
-    public function getList($nom)
-    {
+	
+    //Pour les adversaire
+    public function getList($nom) {
+		
         $persos = [];
  
         $q  =  $this->_db->prepare('SELECT id, nom, degats, experience, niveau, nbCoups, dateDernierCoup, dateDerniereConnexion FROM personnages WHERE nom <> :nom ORDER BY nom');
         $q->execute([':nom'=>$nom]);
  
-        while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($donnees = $q->fetch(PDO::FETCH_ASSOC)) {
+			
             $persos[] = new Personnage($donnees);
         }
         return $persos;
     }
-     
-    public function update(Personnage $perso)
-    {
+	
+	//////////////////////////////////////////////////////////////
+	////Méthode pour mettre à jour les personnages dans la BDD////
+	//////////////////////////////////////////////////////////////
+    
+	//Méthode avec paramètre de type Personnage
+    public function update(Personnage $perso) {
+		
+		
         $q  =  $this->_db->prepare('UPDATE personnages SET degats = :degats, experience = :experience, niveau = :niveau, nbCoups = :nbCoups, dateDernierCoup = :dateDernierCoup, dateDerniereConnexion = :dateDerniereConnexion WHERE id = :id');
         $q->bindValue(':degats',$perso->degats(), PDO::PARAM_INT);
         $q->bindValue(':experience',$perso->experience(), PDO::PARAM_INT);
@@ -98,9 +131,10 @@ class PersonnagesManager
         $q->bindValue(':id',$perso->id(), PDO::PARAM_INT);
         $q->execute();
     }
-     
-    public function setDb(PDO $db)
-    {
+    
+	//Méthode avec paramètre de type PDO
+    public function setDb(PDO $db) {
+		
         $this->_db = $db;
     }
      
