@@ -11,7 +11,7 @@ spl_autoload_register('chargerClasse');
 //Ouverture de session
 session_start();
 
-//Fermeture de session si la variable de session avec la clé deconnexion est définie (au clic sur deconnexion)
+//Fermeture de session si la variable get avec la clé deconnexion est définie (au clic sur deconnexion)
 if (isset($_GET['deconnexion'])) {
     session_destroy();
     header('Location: .');
