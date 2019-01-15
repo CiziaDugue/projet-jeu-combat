@@ -98,7 +98,7 @@ class PersonnagesManager {
         return new Personnage($donnees);
     }
 	
-    //Pour les adversaire
+    //Pour les adversaires
     public function getList($nom) {
 		
         $persos = [];
